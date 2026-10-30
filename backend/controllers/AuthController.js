@@ -41,6 +41,7 @@ module.exports.signup = async (req, res) => {
 };
 
 
+
 module.exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -52,8 +53,10 @@ module.exports.login = async (req, res) => {
     if (!ok)
       return res.status(401).json({ message: "Email or password wrong" });
 
-    setCookie(res, createToken(user._id));
-    res.json({ message: "Login successful" });
+    const token = createToken(user._id);
+    setCookie(res, token);
+    
+    res.json({ message: "Login successful", token });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });

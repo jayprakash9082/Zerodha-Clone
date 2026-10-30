@@ -1,7 +1,6 @@
-import api, { DASHBOARD_URL } from "../../api";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import api, { DASHBOARD_URL } from "../../api";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,8 +13,9 @@ function Login() {
     e.preventDefault();
     setError("");
     try {
-      await api.post("/login", form);
-      window.location.href = DASHBOARD_URL;
+      const res = await api.post("/login", form);
+      // Pass the token to the dashboard in the URL hash (the hash is never sent to a server)
+      window.location.href = `${DASHBOARD_URL}/#token=${res.data.token}`;
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
