@@ -20,12 +20,28 @@ const uri = process.env.MONGO_URL;
 
 const app = express();
 
+// app.use(
+//   cors({
+//     origin: ["http://localhost:3000", "http://localhost:3001"],
+//     credentials: true,
+//   })
+// );
+// Local URLs plus the live URLs (set as environment variables on Render)
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  process.env.FRONTEND_URL,
+  process.env.DASHBOARD_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 
