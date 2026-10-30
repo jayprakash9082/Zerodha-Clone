@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL, FRONTEND_URL } from "../config";
 
 function ProtectedRoute({ children }) {
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/api/auth/verify", { withCredentials: true })
+      .get(`${API_URL}/api/auth/verify`, { withCredentials: true })
       .then(() => setStatus("ok"))
       .catch(() => {
-        window.location.href = "http://localhost:3000/login";
+        // Not logged in, send the user to the login page
+        window.location.href = `${FRONTEND_URL}/login`;
       });
   }, []);
 

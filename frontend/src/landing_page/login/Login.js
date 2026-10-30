@@ -1,6 +1,7 @@
+import api, { DASHBOARD_URL } from "../../api";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../../api";
+
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,7 +15,7 @@ function Login() {
     setError("");
     try {
       await api.post("/login", form);
-      window.location.href = "http://localhost:3001"; 
+      window.location.href = DASHBOARD_URL;
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
